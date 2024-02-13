@@ -1,3 +1,6 @@
+//
+var playerScores = [];
+//
 var jumpSound;
 var config = {
     type: Phaser.AUTO,
@@ -137,6 +140,8 @@ function create ()
         repeat: -1
     });
     //
+    var leaderboardText = this.add.text(config.width - 150, 16, 'Leaderboard', { fontSize: '24px', fill: '#fff' });
+    updateLeaderboard(leaderboardText);
 
 
 }
@@ -205,12 +210,22 @@ function update ()
         badGuy.anims.play('badGuyTurn');
     }
 }
-
+function updateLeaderboard(textObject) {r
+    playerScores.sort((a, b) => b.score - a.score);
+    var leaderboardString = '';
+    for (var i = 0; i < Math.min(5, playerScores.length); i++) {
+        leaderboardString += (i + 1) + '. ' + playerScores[i].name + ': ' + playerScores[i].score + '\n';
+    }
+    textObject.setText(leaderboardString);
+}
 function endGame() {
     this.physics.pause();
     player.setTint(0xff0000);
     player.anims.play('turn');
     gameOver = true;
+    var playerName = prompt('Enter your name:');
+    playerScores.push({ name: playerName, score: score });
+    updateLeaderboard(scoreText);
 }
 
 function collectStar (player, star)
