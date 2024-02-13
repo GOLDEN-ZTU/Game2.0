@@ -219,6 +219,14 @@ function collectStar (player, star)
 
     score += 10;
     scoreText.setText('Score: ' + score);
+    //
+    var x = Phaser.Math.Between(0, config.width);
+    var bomb = bombs.create(x, 16, 'bomb');
+    bomb.setBounce(1);
+    bomb.setCollideWorldBounds(true);
+    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    bomb.allowGravity = false;
+    //
 
     if (stars.countActive(true) === 0)
     {
@@ -229,14 +237,15 @@ function collectStar (player, star)
 
         });
 
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+        for (var i = 0; i < 12; i++) {
+            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+            var newStar = stars.create(x, 0, 'star');
+            newStar.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        }
 
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-
+        for (var i = 0; i < bombs.children.entries.length; i++) {
+            bombs.children.entries[i].destroy();
+        }
     }
 }
 
