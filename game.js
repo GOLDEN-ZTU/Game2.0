@@ -219,6 +219,14 @@ function collectStar (player, star)
 
     score += 10;
     scoreText.setText('Score: ' + score);
+    //
+    var x = Phaser.Math.Between(0, config.width);
+    var bomb = bombs.create(x, 16, 'bomb');
+    bomb.setBounce(1);
+    bomb.setCollideWorldBounds(true);
+    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    bomb.allowGravity = false;
+    //
 
     if (stars.countActive(true) === 0)
     {
